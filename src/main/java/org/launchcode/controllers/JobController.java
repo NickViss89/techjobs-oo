@@ -10,8 +10,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.IdentityHashMap;
 
 /**
  * Created by LaunchCode
@@ -41,7 +43,7 @@ public class JobController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String add(Model model, @Valid JobForm jobForm, Errors errors) {
+    public String add(Model model, @Valid JobForm jobForm, Errors errors, RedirectAttributes attributes) {
 
         // TODO #6 - Validate the JobForm model, and if valid, create a
         // new Job and add it to the jobData data store. Then
@@ -62,9 +64,10 @@ public class JobController {
 
         jobData.add(newJob);
 
-        model.addAttribute(newJob);
+        attributes.addAttribute("id", newJob.getId());
 
-        return "job-detail";
+
+        return "redirect:/job";
 
     }
 }
